@@ -15,7 +15,7 @@ Please direct issues or bugs to [EIA-DASH-BENCHMARK-GITHUB@eia.gov](mailto:EIA-D
 If you are unable to find an open issue addressing the problem or bug, please open a new one by emailing [EIA-DASH-BENCHMARK-GITHUB@eia.gov](mailto:EIA-DASH-BENCHMARK-GITHUB@eia.gov?subject=[GitHub]%20issue). Be sure to include a title and clear description, with as much relevant information as possible, and a code sample or an executable test case (e.g., a Minimal Reproducible Example or MRE) demonstrating the expected behavior that is not occurring. 
 
 ## Do you intend to propose a new feature or change an existing one?
-Suggest your change by sending an email to EIA-DASH-BENCHMARK@eia.gov. By contributing your code, you agree to license your contribution under the [Apache 2.0](https://github.com/EIAgov/EIAgov/blob/main/LICENSE).
+Suggest your change by sending an email to EIA-DASH-BENCHMARK-GITHUB@eia.gov. By contributing your code, you agree to license your contribution under the [Apache 2.0](https://github.com/EIAgov/EIAgov/blob/main/LICENSE).
 
 ## Do you have questions/concerns about the source code?
 Ask any question or express any concerns about a project to EIA dash-benchmark Team via EIA-DASH-BENCHMARK@eia.gov.
