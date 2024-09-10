@@ -1,5 +1,5 @@
-*This contribute file was created on 2024-08-29*
-[![Header](src/assets/banner.png "Viz Banner"){width=100%}](https://www.eia.gov)
+*This contribution file was created on 2024-08-29*
+[![banner](https://github.com/user-attachments/assets/2fb69506-7b5f-4a95-bebb-a3cb87f1c198)](https://www.eia.gov)
 
 Welcome to U.S. Energy Information Administration’s (EIA) Contributing Guide for the **dash-benchmark** repository.  Thank you for investing your time to our projects! Please read our Code of Conduct which we hold very important to creating a positive environment for contributors.  
 
