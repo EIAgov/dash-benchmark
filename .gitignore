@@ -1,0 +1,16 @@
+# *.py[ocd]
+
+# ipython files
+**/.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# compressed / binary files
+*.bz2
+*.bzip2
+*.dmg
+*.gz
+*.iso
+*.png
+*.tar
+*.tgz
+*.zip

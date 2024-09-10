@@ -1,0 +1,24 @@
+name: dash-benchmark-env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+
+  # runtime
+  - dash-bootstrap-components
+  - numpy
+  - pandas >=1.2
+
+  # tests
+  - nodejs 20.*
+  - openpyxl
+
+  # examples
+  - flask >=1.0
+
+  # pip dependencies
+  - pip
+  - pip:
+    - dash
+    - dash-ag-grid
+    - dash-bootstrap-templates
