@@ -18,4 +18,4 @@ If you are unable to find an open issue addressing the problem or bug, please op
 Suggest your change by sending an email to EIA-DASH-BENCHMARK-GITHUB@eia.gov. By contributing your code, you agree to license your contribution under the [Apache 2.0](https://github.com/EIAgov/EIAgov/blob/main/LICENSE).
 
 ## Do you have questions/concerns about the source code?
-Ask any question or express any concerns about a project to EIA dash-benchmark Team via EIA-DASH-BENCHMARK@eia.gov.
+Ask any question or express any concerns about a project to EIA dash-benchmark Team via EIA-DASH-BENCHMARK-GITHUB@eia.gov.
