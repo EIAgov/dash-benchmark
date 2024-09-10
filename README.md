@@ -2,7 +2,7 @@
 ![](https://img.shields.io/badge/Projections-Energy%20Statistics%20and%20Analyses-orange)
 ![](https://img.shields.io/badge/Python-3.12-yellow)
 ![](https://img.shields.io/badge/Dash->=2.17.1-teal)
-[![Header](src/assets/banner.png "Viz Banner"){width=100%}](https://www.eia.gov)
+[![banner](https://github.com/user-attachments/assets/2fb69506-7b5f-4a95-bebb-a3cb87f1c198)](https://www.eia.gov)
 
 # *dash-benchmark*, a Dash/Plotly application
 ![GitLab downloads](https://img.shields.io/github/downloads/EIAgov/dash-benchmark/total)
