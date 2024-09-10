@@ -10,7 +10,7 @@
 *.dmg
 *.gz
 *.iso
-*.png
+#*.png
 *.tar
 *.tgz
 *.zip
