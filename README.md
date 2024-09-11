@@ -32,8 +32,8 @@ These instructions will get a copy of the project up and running on your local m
 4. Navigate to the ```dash-benchmark\src``` directory with the app.py
 5. Run the dashboard with the terminal command:
 
-```bash
-$ python app.py
+```powershell
+(dash-benchmark-env) $ python app.py
 ```
 
 To close, first exit out of the browser and then hit <kbd>ctrl-c</kbd> twice in the terminal window.
