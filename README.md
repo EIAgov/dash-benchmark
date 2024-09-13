@@ -25,7 +25,7 @@ The dash-benchmark repository explores the results from AEO2015 through AEO2023,
 These instructions will get a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Installing and running (quick start)
-1. Copy the repository https://git.eia.gov/MSI/dash-benchmark
+1. Copy the repository https://git.eia.gov/EIAgov/dash-benchmark.git
 2. Create a new virtual environment with your preferred tools
 3. Install the dependencies (make certain your preferred virtual environment is activated) or complete as part of step 2
 4. Download the [data in csv format](https://www.eia.gov/outlooks/aeo/retrospective/datafile/eia-aeo-mer-benchmark-sep2024.csv) and place csv file into the ```dash-benchmark\src\data``` folder
