@@ -17,6 +17,7 @@ from utils.constants import (meta_tags,
                              units_dict, 
                              titles_dict, 
                              case_name_labels_dict, 
+                             colors_dict,
                              sources_dict)
 
 import gc
@@ -27,7 +28,7 @@ work_dir = Path.cwd()
 # Uncomment below line out to check your working directory
 #print(work_dir)
 
-for path in find_files("eia-aeo-mer-benchmark-sep2024.csv", Path(".")):
+for path in find_files("eia-aeo-mer-benchmark-nov2024.csv", Path(".")):
     dashboard_data_path = path
 
     
@@ -41,6 +42,17 @@ df = df.iloc[:,1:]
 # we standardize the data because of case/scenario labeling in EIA API v2
 df['case_name'] = df['case_name'].replace(
     {
+        "REF2005": "REFERENCE",
+        "REF2006": "REFERENCE",
+        "REF2007": "REFERENCE",
+        "REF2008": "REFERENCE",
+        "REF2009": "REFERENCE", 
+        "REF2010R": "REFERENCE",
+        "REF2010": "REFERENCE",
+        "REF2011": "REFERENCE",
+        "REF2012": "REFERENCE",
+        "REF2013": "REFERENCE",
+        "REF2014": "REFERENCE", 
         "REF2015": "REFERENCE",
         "REF2016": "REFERENCE",
         "REF2017": "REFERENCE",
@@ -51,15 +63,32 @@ df['case_name'] = df['case_name'].replace(
         "REF2022": "REFERENCE",
         "REF2023": "REFERENCE",
         "REF2025": "REFERENCE",
+        "HM2010": "HIGHMACRO",
+        "LM2010": "LOWMACRO",
+        "HP2010": "HIGHPRICE",
+        "LP2010": "LOWPRICE",
+        "HM2011": "HIGHMACRO",
+        "LM2011": "LOWMACRO",
+        "HP2011HNO": "HIGHPRICE",
+        "LP2011LNO": "LOWPRICE", 
+        "HEUR12": "HSHLEUR",
+        "LEUR12": "LSHLEUR",  
+        "HM2012": "HIGHMACRO",
+        "LM2012": "LOWMACRO",
+        "HP2012": "HIGHPRICE",
+        "LP2012": "LOWPRICE", 
         })
 
 df['case_name_labels'] = df['case_name'].map(case_name_labels_dict)
 
 
 # we focus on certain scenarios or side cases in the review
-df = df.loc[df.case_name.isin(['ACTUAL', 'HIGHMACHIGHZTC', 'HIGHMACLOWZTC', 'HIGHMACRO', 'HIGHOGS', 
-                               'HIGHPRICE', 'HIGHUPIRA', 'HIGHZTC', 'LOWMACHIGHZTC', 'LOWMACLOWZTC',
-                               'LOWMACRO', 'LOWOGS', 'LOWPRICE', 'LOWUPIRA', 'LOWZTC', 'NOIRA', 'REFERENCE',
+df = df.loc[df.case_name.isin(['ACTUAL', 'HEUR', 'HIGHMACHIGHZTC', 'HIGHMACLOWZTC', 'HIGHMACRO', 'HIGHOGS', 
+                               'HIGHPRICE', 'HIGHRESOURCE', 'HIGHUPIRA', 'HIGHZTC', 'HM2011', 'HM2012', 
+                               'LOWMACHIGHZTC', 'LOWMACLOWZTC',
+                               'HP2011HNO', 'HP2012', 'HSHLEUR', 'LEUR12', 'LM2011', 'LM2012', 
+                               'LOWMACRO', 'LOWOGS', 'LOWPRICE', 'LOWRESOURCE', 'LP2011LNO', 'LP2012', 
+                               'LSHLEUR', 'LOWUPIRA', 'LOWZTC', 'NOIRA', 'REFERENCE',
                               ]
                              )
            ]
@@ -158,17 +187,21 @@ checklist = html.Div(
         dbc.Label("Select AEO Case or MER Actual"),
         dcc.Dropdown([
             {'label':'Actual','value':'ACTUAL'},
+            {'label':'Oil and Gas: High Shale EUR','value':'HSHLEUR'},
             {'label':'High Macro and High Zero-Carbon Technology Cost','value':'HIGHMACHIGHZTC'},
             {'label':'High Macro and Low Zero-Carbon Technology Cost','value':'HIGHMACLOWZTC'},
             {'label':'High Economic Growth','value':'HIGHMACRO'},
             {'label':'High Oil and Gas Supply','value':'HIGHOGS'},
             {'label':'High Oil Price','value':'HIGHPRICE'},
+            {'label':'Oil and Gas: High Oil and Gas Resource','value':'HIGHRESOURCE'},
             {'label':'High Uptake of Inflation Reduction Act','value':'HIGHUPIRA'},
             {'label':'High Zero-Carbon Technology Cost','value':'HIGHZTC'},
             {'label':'Low Macro and High Zero-Carbon Technology Cost','value':'LOWMACHIGHZTC'},
-            {'label':'Low Macro and Low Zero-Carbon Technology Cost','value':'LOWMACLOWZTC'},
+            {'label':'Low Macro and Low Zero-Carbon Technology Cost','value':'LOWMACLOWZTC'}, 
+            {'label':'Oil and Gas: Low Shale EUR','value':'LSHLEUR'},
             {'label':'Low Economic Growth','value':'LOWMACRO'},
             {'label':'Low Oil and Gas Supply','value':'LOWOGS'},
+            {'label':'Oil and Gas: Low Oil and Gas Resource','value':'LOWRESOURCE'},
             {'label':'Low Oil Price','value':'LOWPRICE'},
             {'label':'Low Uptake of Inflation Reduction Act','value':'LOWUPIRA'},
             {'label':'Low Zero-Carbon Technology Cost','value':'LOWZTC'},
@@ -227,6 +260,17 @@ controls = dbc.Card(
     [dropdown, checklist, slider], 
     body=True,
 )
+citation_controls = html.Div(
+    [], id="fig-citation", className="mt-2")
+citation_controls = html.Div([citation_controls, html.A("Link to EIA's open data API for Annual Energy Outlooks ", href='https://www.eia.gov/opendata/browser/aeo', target="_blank"), 
+                              html.Div([html.A("Link to EIA's open data API for Monthly Energy Reviews", href='https://www.eia.gov/opendata/browser/total-energy', target="_blank")]), 
+                              ])
+"""
+citations  = dbc.Card(
+    [citation], 
+    body=True,
+)
+"""
 
 
 tab1 = dbc.Tab([dcc.Graph(id="line-chart", figure=px.line(template="simple_white"), style={'height': '85vh'})], label="Line Chart")
@@ -246,7 +290,7 @@ app.layout = dbc.Container(
                 # ************************************
                 theme_controls
             ],  width=3),
-            dbc.Col([tabs, colors], width=9),
+            dbc.Col([tabs, citation_controls], width=9),
         ]),
     ],
     fluid=True,
@@ -259,6 +303,7 @@ app.layout = dbc.Container(
     Output("line-chart", "figure" ),
     Output("scatter-chart", "figure"),
     Output("grid", "dashGridOptions"),
+    Output("fig-citation", component_property='children'),
     Input("indicator", "value"),
     Input("case_names", "value"),
     Input("years", "value"),
@@ -278,7 +323,7 @@ def update(indicator, case_name, yrs, theme, color_mode_switch_on):
         
     def conditions_prefix(x):
         if x=="PRCE":
-            return fig.update_layout(yaxis=dict(tickprefix= '$', separatethousands= True, tickfont_size=16))
+            return fig.update_layout(yaxis=dict(tickprefix= '$', separatethousands= True, tickfont_size=26))
         else:
             return None
 
@@ -304,15 +349,15 @@ def update(indicator, case_name, yrs, theme, color_mode_switch_on):
         #line_dash="case_name",
         labels={"edition": "edition", "case_name_labels": "case"},
         title=f"<b>{titles_dict.get(indicator,'title not found')}</b><br>({units_dict.get(test_units,'units not found')})",
-        template=template_name
+        template=template_name,
     )
 
     fig.for_each_trace(
         lambda trace: trace.update(line_color="black", line_width=4) if trace.legendgroup == "2024" else (),)
     
-    fig.update_layout(yaxis=dict(title=None, tickfont_size=16), 
-                      xaxis=dict(tickfont_size=16, automargin=True),
-                      legend=dict(font=dict(size=16,)), 
+    fig.update_layout(yaxis=dict(title=None, tickfont_size=26), 
+                      xaxis=dict(tickfont_size=26, automargin=True),
+                      legend=dict(font=dict(size=26,)), title=dict(font=dict(size=26)),  
                       paper_bgcolor='rgba(0, 0, 0, 0)',
                       plot_bgcolor='rgba(0, 0, 0, 0)',
                       modebar=dict(
@@ -333,8 +378,9 @@ def update(indicator, case_name, yrs, theme, color_mode_switch_on):
         linecolor='black',
         linewidth=2, 
         gridcolor='lightgrey',
-        title_font = {"size": 16},
-        title_standoff = 1
+        title_font = {"size": 26},
+        title_standoff = 1,
+        range=(2000, 2050)
     )
     fig.update_yaxes(
         mirror=True,
@@ -343,24 +389,35 @@ def update(indicator, case_name, yrs, theme, color_mode_switch_on):
         linecolor='black',
         gridcolor='lightgrey'
     )
+    fig.update_traces(selector=dict(legendgroup="2005"), line=dict(color=colors_dict.get('dhs-dark-gray-70')))
+    fig.update_traces(selector=dict(legendgroup="2006"), line=dict(color=colors_dict.get('dhs-dark-gray-60')))
+    fig.update_traces(selector=dict(legendgroup="2007"), line=dict(color=colors_dict.get('dhs-dark-gray-40')))
+    fig.update_traces(selector=dict(legendgroup="2008"), line=dict(color=colors_dict.get('dhs-dark-gray-30')))
+    fig.update_traces(selector=dict(legendgroup="2009"), line=dict(color=colors_dict.get('dhs-dark-gray-20')))
+    fig.update_traces(selector=dict(legendgroup="2010"), line=dict(color=colors_dict.get('dhs-green-70')))
 
-    
-    fig.update_traces(selector=dict(legendgroup="2015"), line=dict(color='#416a23'))
-    fig.update_traces(selector=dict(legendgroup="2016"), line=dict(color='#0096d7'))
-    fig.update_traces(selector=dict(legendgroup="2017"), line=dict(color='#a33340'))
-    fig.update_traces(selector=dict(legendgroup="2018"), line=dict(color='#cc9900'))
-    fig.update_traces(selector=dict(legendgroup="2019"), line=dict(color='#b34e16'))
-    fig.update_traces(selector=dict(legendgroup="2020"), line=dict(color='#a6c68e'))
-    fig.update_traces(selector=dict(legendgroup="2021"), line=dict(color='#dbb28a'))
-    fig.update_traces(selector=dict(legendgroup="2022"), line=dict(color='#49366e'))
-    fig.update_traces(selector=dict(legendgroup="2023"), line=dict(color='#006997'))
+    fig.update_traces(selector=dict(legendgroup="2011"), line=dict(color=colors_dict.get('dhs-green-60')))
+    fig.update_traces(selector=dict(legendgroup="2012"), line=dict(color=colors_dict.get('dhs-green-40')))
+    fig.update_traces(selector=dict(legendgroup="2013"), line=dict(color=colors_dict.get('dhs-green-30')))
+    fig.update_traces(selector=dict(legendgroup="2014"), line=dict(color=colors_dict.get('dhs-green-20')))
+
+    fig.update_traces(selector=dict(legendgroup="2015"), line=dict(color=colors_dict.get('dhs-red-70')))
+    fig.update_traces(selector=dict(legendgroup="2016"), line=dict(color=colors_dict.get('dhs-red-60')))
+    fig.update_traces(selector=dict(legendgroup="2017"), line=dict(color=colors_dict.get('dhs-red-40')))
+    fig.update_traces(selector=dict(legendgroup="2018"), line=dict(color=colors_dict.get('dhs-red-30')))
+    fig.update_traces(selector=dict(legendgroup="2019"), line=dict(color=colors_dict.get('dhs-red-20')))
+    fig.update_traces(selector=dict(legendgroup="2020"), line=dict(color=colors_dict.get('dhs-light-blue-70')))
+    fig.update_traces(selector=dict(legendgroup="2021"), line=dict(color=colors_dict.get('dhs-light-blue-60')))
+    fig.update_traces(selector=dict(legendgroup="2022"), line=dict(color=colors_dict.get('dhs-light-blue-40')))
+    fig.update_traces(selector=dict(legendgroup="2023"), line=dict(color=colors_dict.get('dhs-light-blue-30')))
     
 
-    textString = f"{sources_dict.get(indicator,'not found')}<br>Note: Adjusted to 2012$, unless noted otherwise"
+    textString = f"{sources_dict.get(indicator,'not found')}. Note: Dollars are adjusted to 2012$, unless noted otherwise."
     
     # Add the annotation text using paper reference. See:
     # https://stackoverflow.com/questions/76046269/how-to-align-annotation-to-the-edge-of-whole-figure-in-plotly
     # https://community.plotly.com/t/interactive-app-to-explain-legend-and-annotations-positioning/65160
+    """
     fig.add_annotation(
         text = textString,
         font = {
@@ -374,6 +431,7 @@ def update(indicator, case_name, yrs, theme, color_mode_switch_on):
         align='left',        
         showarrow = False
     )
+    """
 
         
     fig_scatter = px.scatter(
@@ -410,8 +468,8 @@ def update(indicator, case_name, yrs, theme, color_mode_switch_on):
 
 
     fig_scatter.update_traces(textposition="bottom right")
-    fig_scatter.update_layout(yaxis=dict(title=None, exponentformat= None, separatethousands= True, tickfont_size=16), 
-                              xaxis=dict(tickprefix= '$', separatethousands= True, tickfont_size=16) )
+    fig_scatter.update_layout(yaxis=dict(title=None, exponentformat= None, separatethousands= True, tickfont_size=26), 
+                              xaxis=dict(tickprefix= '$', separatethousands= True, tickfont_size=26) )
     fig_scatter.for_each_trace(
         lambda trace: trace.update(marker=dict(size=10, color="black"), line=dict(width=2, color="DarkSlateGrey")) if trace.name == "Actual, 2024" else 
         (trace.update(marker=dict(size=8), line=dict(width=2, color="DarkSlateGrey"))),)
@@ -444,7 +502,7 @@ def update(indicator, case_name, yrs, theme, color_mode_switch_on):
     }
     fig_scatter.update_traces(visible='legendonly', selector=dict(name="d")) 
 
-    return fig, fig_scatter, dashGridOptions
+    return fig, fig_scatter, dashGridOptions, textString
 
 
 # updates the Bootstrap global light/dark color mode
