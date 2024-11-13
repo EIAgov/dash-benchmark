@@ -379,8 +379,7 @@ def update(indicator, case_name, yrs, theme, color_mode_switch_on):
         linewidth=2, 
         gridcolor='lightgrey',
         title_font = {"size": 26},
-        title_standoff = 1,
-        range=(2000, 2050)
+        title_standoff = 1
     )
     fig.update_yaxes(
         mirror=True,
